@@ -1,11 +1,12 @@
 import { hashPassword } from "../helpers/userHelper.js";
-import User from "../models/User.js";
+
 import bcrypt from "bcrypt";
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import sendEmail from "../utils/sendEmail.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import User from "../models/User.js";
 
 dotenv.config();
 
