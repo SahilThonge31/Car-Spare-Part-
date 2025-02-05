@@ -28,7 +28,8 @@ app.use("/api/m2/auth", authRoutes);
 app.use('/api/m2/products', productRoutes);
 app.use('/api/m2/categories', categoryRoutes);
 app.use('/api/m2/orders', orderRoutes);
-app.use('/api/m2/cart', cartRoutes);  // Prefix the routes with /api/user
+app.use('/api/m2/cart', cartRoutes);
+ // Prefix the routes with /api/user
 
 // Start the server
 app.listen(port, (error) => {
