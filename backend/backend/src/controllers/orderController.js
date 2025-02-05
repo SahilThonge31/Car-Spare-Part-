@@ -1,6 +1,8 @@
 import Order from "../models/order.js";
 import Product from "../models/product.js";
 import Razorpay from "razorpay";
+import crypto from "crypto"; // Correct for ES Modules (ESM)
+
 import sendEmail from "../utils/sendEmail.js";
 import product from "../models/product.js";
 
@@ -12,7 +14,7 @@ export const razorpay = new Razorpay({
 
 
 export const createOrder = async (req, res) => {
-  console.log("hellow world");
+
   try {
     const { email, name, products, totalPrice, phone, address, orderType } = req.body;
 
@@ -58,8 +60,9 @@ export const createOrder = async (req, res) => {
       if (email) {
         await sendEmail(
           email,
-          "Order Confirmation",
-          `Your order has been placed successfully!\nOrder ID: ${order._id}\nTotal Bill: ₹${totalPrice}`
+          "Order Confirmation From Car Spare Parts..!",
+          `Your order has been placed successfully!\nOrder ID : ${order._id}\nTotal Bill : ₹${totalPrice}`,
+          `Pyment Mode : ${orderType}` 
         );
       } else {
         console.error("Error: Email is missing, cannot send order confirmation.");
@@ -67,6 +70,7 @@ export const createOrder = async (req, res) => {
 
       return res.status(201).json({ success: true, message: "Order placed successfully", order });
     } else if (orderType === "online") {
+      // Create Razorpay Order
       const razorpayOrder = await razorpay.orders.create({
         amount: totalPrice * 100, // Convert to paise
         currency: "INR",
@@ -81,7 +85,7 @@ export const createOrder = async (req, res) => {
     }
   } catch (error) {
     console.error("Error creating order:", error);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    res.status(500).json({ success: false, message: "Server error. Try again." });
   }
 };
 
@@ -89,13 +93,49 @@ export const createOrder = async (req, res) => {
 // Payment Verification & Order Confirmation (For Online Payments)
 export const verifyPayment = async (req, res) => {
   try {
-    const { email, name, products, totalPrice, phone, address, razorpay_payment_id } = req.body;
+    const { email, name, products, totalPrice, phone, address, razorpay_payment_id, razorpay_order_id, razorpay_signature } = req.body;
 
-    if (!razorpay_payment_id) {
-      return res.status(400).json({ success: false, message: "Payment ID is required." });
+    if (!razorpay_payment_id || !razorpay_order_id || !razorpay_signature) {
+      return res.status(400).json({ success: false, message: "Invalid payment details." });
     }
 
-    // Create the order after successful payment
+    // Verify the payment signature
+    const secret = process.env.RAZORPAY_SECRET_KEY;
+
+    if (!secret) {
+      console.error("❌ RAZORPAY_SECRET_KEY is missing in environment variables");
+      return res.status(500).json({ success: false, message: "Server configuration error." });
+    }
+
+    const generated_signature = crypto.createHmac("sha256", secret)
+      .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+      .digest("hex");
+
+    if (generated_signature !== razorpay_signature) {
+      console.error("❌ Payment signature verification failed");
+      return res.status(400).json({ success: false, message: "Payment verification failed." });
+    }
+    const mappedProducts = products.map(item => ({
+      product: item.productId,  // Ensure correct field mapping
+      quantity: item.quantity,
+    }));
+
+    // Validate stock before creating order
+    for (const item of mappedProducts) {
+      const product = await Product.findById(item.product);
+      if (!product) {
+        return res.status(404).json({ success: false, message: `Product not found: ${item.product}` });
+      }
+
+      if (product.stock < item.quantity) {
+        return res.status(400).json({ success: false, message: `Insufficient stock for ${product.name}` });
+      }
+
+      product.stock -= item.quantity;
+      await product.save();
+    }
+
+    // Save order to DB
     const order = new Order({
       email,
       name,
@@ -105,15 +145,14 @@ export const verifyPayment = async (req, res) => {
       totalPrice,
       orderType: "online",
       paymentId: razorpay_payment_id,
-      status: "pending",
+      status: "completed",
     });
 
     await order.save();
 
-    if (!email) {
-      console.error("Error: Email is missing, cannot send payment confirmation.");
-    } else {
-      // Send email confirmation
+    console.log("✅ Order saved successfully:", order);
+
+    if (email) {
       const mailOptions = {
         from: process.env.EMAIL_USER,
         to: email,
@@ -121,17 +160,17 @@ export const verifyPayment = async (req, res) => {
         text: `Your payment was successful!\nOrder ID: ${order._id}\nTotal Bill: ₹${totalPrice}`,
       };
 
-      console.log("Sending email with options:", mailOptions); // Debug log
-
+      console.log("📧 Sending confirmation email:", mailOptions);
       await sendEmail(mailOptions);
     }
 
     res.status(201).json({ success: true, message: "Payment successful, order placed", order });
   } catch (error) {
-    console.error("Error verifying payment:", error);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    console.error("❌ Error in verifyPayment:", error);
+    res.status(500).json({ success: false, message: "Internal server error", error: error.message });
   }
 };
+
 
 export const cancelOrder = async (req, res) => {
   try {

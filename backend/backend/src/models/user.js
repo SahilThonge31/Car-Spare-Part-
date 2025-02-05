@@ -20,8 +20,8 @@ const userSchema = mongoose.Schema({
 
     otp: { type: String },
      // To store the OTP (hashed for security)
-  otpExpiry: { type: Date },
-     
+otpExpiry: { type: Date },
+
 
 
 }, { timestamps: true })

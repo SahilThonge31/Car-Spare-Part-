@@ -42,6 +42,7 @@ const LoginPopup = ({ onClose, onForgotPassword }) => {
         localStorage.setItem("userId", userData._id); // Store user ID
         localStorage.setItem("email", userData.email); // Store email
         localStorage.setItem("name", userData.name); // Store name (if available)
+        // localStorage.setItem(email)
   
         // Update global auth state (assuming `login` is a function to update global state)
         login(userData);
