@@ -208,16 +208,6 @@ const ProductDetailPage = () => {
                 >
                   Add to Cart
                 </motion.button>
-
-                {/* Buy Now Button */}
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-6 py-3 bg-orange-500 text-white font-semibold rounded-lg shadow-md hover:bg-orange-600 transition-colors duration-300"
-                  onClick={handleBuyNow}
-                >
-                  Buy Now
-                </motion.button>
               </div>
             </div>
           </motion.div>

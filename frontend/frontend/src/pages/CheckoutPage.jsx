@@ -156,7 +156,7 @@ export default function CheckoutPage() {
     {/* Sidebar */}
     <Sidebar/>
 
-      <div className="flex justify-center items-center min-h-screen bg-gray-50 p-4">
+      <div className="flex justify-center items-center min-h-screen bg-gray-50 p-2">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}

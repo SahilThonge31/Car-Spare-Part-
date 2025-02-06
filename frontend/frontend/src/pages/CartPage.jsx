@@ -19,26 +19,30 @@ const Cart = () => {
         navigate("/HomePage");
         return;
       }
-
+  
+      console.log("Fetching cart for email:", email);
+  
       try {
         const response = await fetch(`http://localhost:4000/api/m2/cart/${email}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            Authorization: `Bearer ${localStorage.getItem("authToken") || ""}`,
           },
         });
-
+  
+        console.log("API Response:", response);
+        console.log("Response Status:", response.status);
+  
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-
+  
         const data = await response.json();
-        console.log("Response from backend:", data);
-
+        console.log("Fetched Data:", data);
+  
         if (data.success && data.cart && Array.isArray(data.cart.items)) {
           setCartItems(data.cart.items);
-          
         } else {
           setError("Failed to fetch cart items");
         }
@@ -49,10 +53,10 @@ const Cart = () => {
         setLoading(false);
       }
     };
-
+  
     fetchCartItems();
   }, [email, navigate]);
-
+  
   // const removeFromCart = async (itemId) => {
   //   try {
   //     const response = await fetch(`http://localhost:4000/api/m2/cart/remove`, {
@@ -91,7 +95,7 @@ const Cart = () => {
   if (loading) {
     return <div className="text-center text-lg font-bold">Loading...</div>;
   }
-
+  
   if (error) {
     return (
       <div className="text-center text-red-500 font-semibold">
@@ -99,8 +103,8 @@ const Cart = () => {
       </div>
     );
   }
-
-  if (cartItems.length === 0) {
+  
+  if (!loading && cartItems?.length === 0) {
     return (
       <div>
         <Header />
@@ -109,7 +113,7 @@ const Cart = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex flex-col items-center justify-center h-screen"
+          className="flex flex-col items-center justify-center min-h-screen"
         >
           <motion.div className="text-4xl font-bold text-gray-800 mb-4">
             Your Cart is Empty
@@ -131,6 +135,7 @@ const Cart = () => {
       </div>
     );
   }
+  
 
   const subtotal = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
@@ -151,47 +156,45 @@ const Cart = () => {
       >
         <h1 className="text-3xl font-bold mb-8">SHOPPING CART</h1>
 
-        <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-          <div className="grid grid-cols-5 gap-4 p-4 border-b font-semibold">
-            <div>PRODUCT</div>
-            <div>PRICE</div>
-            <div>QUANTITY</div>
-            <div>TOTAL</div>
-            <div></div>
-          </div>
+        <div className="bg-white shadow-lg rounded-lg overflow-hidden p-2">
+  {/* Table Header (Always Visible) */}
+  <div className="grid grid-cols-4 gap-6 p-2 border-b font-semibold bg-gray-100">
+    <div className="text-center ">PRODUCT</div>
+    <div className="text-center ">PRICE</div>
+    <div className="text-center ">QUANTITY</div>
+    <div className="text-center ">TOTAL</div>
+  </div>
 
-          {cartItems.map((item) => (
-            <motion.div
-              key={item._id}
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-              className="grid grid-cols-5 gap-4 p-4 border-b"
-            >
-              <div className="flex items-center">
-                <p className="font-semibold">{item.name}</p>
-              </div>
-
-              <div>₹ {item.price.toFixed(2)}</div>
-              <div>{item.quantity}</div>
-              <div>₹ {(item.price * item.quantity).toFixed(2)}</div>
-              <div>
-                <button className="text-red-500 hover:text-red-700">
-                  Remove
-                </button>
-              </div>
-            </motion.div>
-          ))}
+  {cartItems.map((item, index) => (
+    <motion.div
+      key={item._id}
+      initial={{ opacity: 0, x: -50 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.5 }}
+      className="grid grid-cols-4 gap-4 p-4 border-b items-center"
+    >
+      {/* Product Logo + Name */}
+      <div className="flex flex-col items-center gap-1">
+        <div className="w-8 h-8 flex items-center justify-center bg-gray-300 rounded-full text-sm font-bold text-white">
+          🛍️
         </div>
+        <p className="font-medium truncate">{item.name}</p>
+      </div>
+
+      {/* Price */}
+      <div className="text-center text-gray-800 font-medium">₹ {item.price.toFixed(2)}</div>
+
+      {/* Quantity */}
+      <div className="text-center">{item.quantity}</div>
+
+      {/* Total Price */}
+      <div className="text-center font-semibold text-green-600">₹ {(item.price * item.quantity).toFixed(2)}</div>
+    </motion.div>
+  ))}
+</div>
+
 
         <div className="flex justify-between mt-6">
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-6 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition-colors duration-300"
-          >
-            Update Cart
-          </motion.button>
           <Link to="/product">
             <motion.button
               whileHover={{ scale: 1.05 }}

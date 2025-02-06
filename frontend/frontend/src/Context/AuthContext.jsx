@@ -4,13 +4,14 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [key, setKey] = useState(0); // Unique key to force re-render
 
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
             setUser(JSON.parse(storedUser));
         }
-    }, []);
+    }, [key]);
 
     const login = (userData) => {
         localStorage.setItem("user", JSON.stringify(userData));
@@ -19,10 +20,9 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logout = () => {
-        localStorage.removeItem("user");
-        localStorage.removeItem("userId");
-        localStorage.removeItem("authToken");
+        localStorage.clear();
         setUser(null);
+        setKey((prevKey) => prevKey + 1); 
     };
 
     return (

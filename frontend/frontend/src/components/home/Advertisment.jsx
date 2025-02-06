@@ -9,7 +9,7 @@ const Advertisement = () => {
       label: "4 Stroke Engine",
       description:
         "Discover the latest trends in automotive engineering. Perfect for innovation seekers.",
-      link: "/products/4-stroke-engine",
+      link: "/products/Engine",
     },
     {
       id: 2,
@@ -18,7 +18,7 @@ const Advertisement = () => {
       label: "Exclusive Collection of Exhaust",
       description:
         "Step into exclusivity with premium car parts designed for performance enthusiasts.",
-      link: "/products/exclusive-exhaust",
+      link: "/products/Silencer",
     },
     {
       id: 3,
@@ -27,7 +27,7 @@ const Advertisement = () => {
       label: "Best Sellers of Brake Pads",
       description:
         "Shop our most popular car parts, trusted by thousands of drivers worldwide.",
-      link: "/products/best-brake-pads",
+      link: "/products/Brakes",
     },
     {
       id: 4,
@@ -36,7 +36,7 @@ const Advertisement = () => {
       label: "Trending Now",
       description:
         "Stay ahead with the latest innovations in car maintenance and accessories.",
-      link: "/products/trending",
+      link: "/products/Oil",
     },
   ];
 

@@ -6,6 +6,7 @@ import LoginPopup from "../common/loginpopup";
 import SignUpPopup from "../common/signuppopup";
 import ForgotPasswordPopup from "./forgotpasspopup";
 import ResetPasswordPopup from "./resetpasspopup";
+
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -68,6 +69,9 @@ const Header = () => {
     // Clear session and localStorage
     localStorage.removeItem("authToken");
     localStorage.removeItem("user");
+    localStorage.removeItem("email");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("name");
 
     // Reset state
     setIsLoggedIn(false);
@@ -80,7 +84,7 @@ const Header = () => {
   return (
     <>
       {/* Main Header Section */}
-      <header className="bg-gray-800 text-white shadow-md sticky top-0 z-50">
+      <header className="bg-gray-800 text-white shadow-md sticky top-0 z-50 P-2">
         <div className="container mx-auto flex justify-between items-center py-4">
           {/* Logo */}
           <Link to="/" className="text-2xl font-bold flex items-center space-x-2 ml-16">
@@ -109,12 +113,6 @@ const Header = () => {
                       onClick={() => navigate("/profile")}
                     >
                       View Profile
-                    </li>
-                    <li
-                      className="px-4 py-2 text-black hover:bg-gray-100 cursor-pointer font-medium transition duration-200 ease-in-out"
-                      onClick={() => navigate("/settings")}
-                    >
-                      Settings
                     </li>
                     <li
                       className="px-4 py-2 text-black hover:bg-red-100 cursor-pointer font-medium transition duration-200 ease-in-out"
@@ -151,7 +149,7 @@ const Header = () => {
           </div>
         </div>
 
-        <div className="bg-gray-900 py-3">
+        <div className="bg-gray-900 py-2">
   <div className="container mx-auto flex justify-between overflow-x-auto space-x-10 text-sm text-gray-400">
     {isLoading ? (
       <span>Loading...</span>
@@ -160,7 +158,7 @@ const Header = () => {
         <Link
           key={category._id} // Assuming category has an _id
           to={`/products/${category.name}`} // Pass category name as part of the URL
-          className="hover:text-green-500"
+          className="hover:text-green-500 text-justify inline-block align-middle"
         >
           {category.name}
         </Link>

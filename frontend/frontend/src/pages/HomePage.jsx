@@ -9,7 +9,7 @@ import TestimonialsSection from "../components/home/Testimonials";
 import CarSlider from "../components/home/brandpage";
 import StickyCart from "../components/common/cart";
 import Adervertisment from "../components/home/Advertisment";
-import AdvertPanel from "../components/home/Addpanel";
+
 
 const HomePage = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -30,8 +30,7 @@ const HomePage = () => {
 
       {/* Hero Section */}
       <HeroSection />
-
-      <AdvertPanel/>
+ 
 
       < Adervertisment/>
 
