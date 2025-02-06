@@ -25,7 +25,7 @@ const CreateProductForm = ({ onProductCreated }) => {
       setIsLoading(true);
       try {
         const response = await fetch(
-          "http://localhost:4000/api/m2/categories/getcategories"
+          "https://car-spare-part-u8hk.onrender.com/api/m2/categories/getcategories"
         );
         if (!response.ok) {
           throw new Error("Failed to fetch categories");

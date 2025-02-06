@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
+import Sidebar from "../components/common/Sidebar";
 
 const NotificationPage = () => {
   const [activeTab, setActiveTab] = useState("Offers & Coupon");
@@ -57,6 +58,8 @@ const NotificationPage = () => {
   return (
     <div>
       <Header />
+
+      <Sidebar/>
 
       <div className="min-h-screen bg-gray-100 flex flex-col items-center p-4">
         {/* Header */}
