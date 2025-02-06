@@ -17,7 +17,7 @@ const NotificationPage = () => {
   // Fetch order notifications from backend
   const fetchNotifications = async () => {
     try {
-      const response = await fetch("http://localhost:4000/api/orders/notifications");
+      const response = await fetch("https://car-spare-part-u8hk.onrender.com/api/orders/notifications");
       const data = await response.json();
       if (data.success) {
         setNotifications(data.notifications);
@@ -32,7 +32,7 @@ const NotificationPage = () => {
   // Fetch suggested products from backend
   const fetchSuggestedProducts = async () => {
     try {
-      const response = await fetch("http://localhost:4000/api/m2/products/products");
+      const response = await fetch("https://car-spare-part-u8hk.onrender.com/api/m2/products/products");
       const data = await response.json();
       if (data.success) {
         // Shuffle products and get 3 products from different categories

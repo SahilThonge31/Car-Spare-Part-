@@ -61,12 +61,6 @@ const Advertisement = () => {
             <p className="text-lg md:text-xl text-gray-600 leading-relaxed pb-8">
               {slides[currentSlide].description}
             </p>
-            <a
-              href={slides[currentSlide].link}
-              className="px-6 py-3 text-lg bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 transition-all duration-300 "
-            >
-              Shop Now
-            </a>
           </div>
 
           {/* Right Section - Image Slider */}

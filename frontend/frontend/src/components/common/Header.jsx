@@ -6,9 +6,7 @@ import LoginPopup from "../common/loginpopup";
 import SignUpPopup from "../common/signuppopup";
 import ForgotPasswordPopup from "./forgotpasspopup";
 import ResetPasswordPopup from "./resetpasspopup";
-
 import { toast } from "react-toastify";
-import axios from "axios";
 
 const Header = () => {
   const [showLoginPopup, setShowLoginPopup] = useState(false);
@@ -27,7 +25,7 @@ const Header = () => {
       setIsLoading(true);
       try {
         const response = await fetch(
-          "http://localhost:4000/api/m2/categories/getcategories"
+          "https://car-spare-part-u8hk.onrender.com/api/m2/categories/getcategories"
         );
         if (!response.ok) {
           throw new Error("Failed to fetch categories");
@@ -38,7 +36,7 @@ const Header = () => {
           setCategories(data.categories);
         } else {
           throw new Error("Categories response is not valid");
-        } 
+        }
       } catch (error) {
         toast.error("Error fetching categories");
         console.error("Categories fetch error:", error);
@@ -50,14 +48,13 @@ const Header = () => {
     fetchCategories();
   }, []);
 
-  // Check session on component mount
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     const userData = localStorage.getItem("user");
 
     if (token && userData) {
       setIsLoggedIn(true);
-      setUser(JSON.parse(userData)); // Parse the user details
+      setUser(JSON.parse(userData));
     }
   }, []);
 
@@ -66,28 +63,27 @@ const Header = () => {
   };
 
   const handleLogout = () => {
-    // Clear session and localStorage
     localStorage.removeItem("authToken");
     localStorage.removeItem("user");
     localStorage.removeItem("email");
     localStorage.removeItem("userId");
     localStorage.removeItem("name");
+    localStorage.removeItem("rzp_checkout_anon_id");
+    localStorage.removeItem("rzp_device_id");
+    localStorage.removeItem("rzp_stored_checkout_id");
 
-    // Reset state
     setIsLoggedIn(false);
     setUser(null);
-
-    // Redirect to home
     navigate("/");
   };
 
   return (
     <>
       {/* Main Header Section */}
-      <header className="bg-gray-800 text-white shadow-md sticky top-0 z-50 P-2">
+      <header className="bg-gray-800 text-white shadow-md sticky top-0 z-50 p-2">
         <div className="container mx-auto flex justify-between items-center py-4">
           {/* Logo */}
-          <Link to="/" className="text-2xl font-bold flex items-center space-x-2 ml-16">
+          <Link to="/" className="text-2xl font-bold flex items-center space-x-2 ml-4 md:ml-16">
             <FaCar className="text-green-500" />
             <span>Auto Essence</span>
           </Link>
@@ -101,36 +97,35 @@ const Header = () => {
                   onClick={toggleDropdown}
                 >
                   <FiUser className="text-2xl" />
-                  <span>{user?.name || "User"}</span> {/* Display user's name */}
+                  <span>{user?.name || "User"}</span>
                 </div>
 
                 {/* Dropdown Menu */}
                 {showDropdown && (
-                <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg">
-                  <ul className="py-2">
-                    <li
-                      className="px-4 py-2 text-black hover:bg-gray-100 cursor-pointer font-medium transition duration-200 ease-in-out"
-                      onClick={() => navigate("/profile")}
-                    >
-                      View Profile
-                    </li>
-                    <li
-                      className="px-4 py-2 text-black hover:bg-red-100 cursor-pointer font-medium transition duration-200 ease-in-out"
-                      onClick={handleLogout}
-                    >
-                      Logout
-                    </li>
-                  </ul>
-                </div>
-              )}
-
+                  <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg">
+                    <ul className="py-2">
+                      <li
+                        className="px-4 py-2 text-black hover:bg-gray-100 cursor-pointer font-medium transition duration-200 ease-in-out"
+                        onClick={() => navigate("/profile")}
+                      >
+                        View Profile
+                      </li>
+                      <li
+                        className="px-4 py-2 text-black hover:bg-red-100 cursor-pointer font-medium transition duration-200 ease-in-out"
+                        onClick={handleLogout}
+                      >
+                        Logout
+                      </li>
+                    </ul>
+                  </div>
+                )}
               </div>
             ) : (
               <>
                 {/* Sign In */}
                 <button
                   onClick={() => setShowLoginPopup(true)}
-                  className="hover:text-green-500 flex items-center space-x-3 "
+                  className="hover:text-green-500 flex items-center space-x-3"
                 >
                   <FiLogIn />
                   <span className="hidden md:inline">Sign In</span>
@@ -139,7 +134,7 @@ const Header = () => {
                 {/* Sign Up */}
                 <button
                   onClick={() => setShowSignUpPopup(true)}
-                  className="hover:text-green-500 flex items-center space-x-3 pr-8"
+                  className="hover:text-green-500 flex items-center space-x-3 pr-4 md:pr-8"
                 >
                   <FiUser />
                   <span className="hidden md:inline">Sign Up</span>
@@ -149,24 +144,24 @@ const Header = () => {
           </div>
         </div>
 
+        {/* Category Navigation Bar */}
         <div className="bg-gray-900 py-2">
-  <div className="container mx-auto flex justify-between overflow-x-auto space-x-10 text-sm text-gray-400">
-    {isLoading ? (
-      <span>Loading...</span>
-    ) : (
-      categories.map((category) => (
-        <Link
-          key={category._id} // Assuming category has an _id
-          to={`/products/${category.name}`} // Pass category name as part of the URL
-          className="hover:text-green-500 text-justify inline-block align-middle"
-        >
-          {category.name}
-        </Link>
-      ))
-    )}
-  </div>
-</div>
-
+          <div className="container mx-auto flex items-center space-x-6 overflow-x-auto whitespace-nowrap px-4 md:justify-center scrollbar-hide">
+            {isLoading ? (
+              <span className="text-white">Loading...</span>
+            ) : (
+              categories.map((category) => (
+                <Link
+                  key={category._id}
+                  to={`/products/${category.name}`}
+                  className="text-gray-300 hover:text-green-500 text-sm md:text-base font-medium transition duration-300 px-3 py-1"
+                >
+                  {category.name}
+                </Link>
+              ))
+            )}
+          </div>
+        </div>
       </header>
 
       {/* Login Popup */}
@@ -181,16 +176,14 @@ const Header = () => {
       )}
 
       {/* Sign Up Popup */}
-      {showSignUpPopup && (
-        <SignUpPopup onClose={() => setShowSignUpPopup(false)} />
-      )}
+      {showSignUpPopup && <SignUpPopup onClose={() => setShowSignUpPopup(false)} />}
 
       {/* Forgot Password Popup */}
       {showForgotPassword && (
         <ForgotPasswordPopup
           onClose={() => {
             setShowForgotPassword(false);
-            setShowLogin(true);
+            setShowLoginPopup(true);
           }}
           onResetPassword={() => {
             setShowForgotPassword(false);
@@ -204,10 +197,23 @@ const Header = () => {
         <ResetPasswordPopup
           onClose={() => {
             setShowResetPassword(false);
-            setShowLogin(true);
+            setShowLoginPopup(true);
           }}
         />
       )}
+
+      {/* Custom CSS for hiding scrollbar */}
+      <style>
+        {`
+          .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+          }
+          .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+          }
+        `}
+      </style>
     </>
   );
 };

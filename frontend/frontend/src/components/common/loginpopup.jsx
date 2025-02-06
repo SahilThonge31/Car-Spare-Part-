@@ -20,7 +20,7 @@ const LoginPopup = ({ onClose, onForgotPassword }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:4000/api/m2/auth/login", {
+      const response = await axios.post("https://car-spare-part-u8hk.onrender.com/api/m2/auth/login", {
         email,
         password,
       });

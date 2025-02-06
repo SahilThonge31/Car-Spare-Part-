@@ -17,7 +17,7 @@ const ResetPassword = () => {
       return;
     }
     try {
-      const response = await axios.post("http://localhost:4000/api/m2/auth/reset-password", {
+      const response = await axios.post("https://car-spare-part-u8hk.onrender.com/api/m2/auth/reset-password", {
         resetToken: token,
         newPassword,
       });

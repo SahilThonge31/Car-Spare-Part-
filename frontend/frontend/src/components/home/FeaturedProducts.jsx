@@ -7,7 +7,7 @@ const FeaturedProducts = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/m2/products/products");
+        const response = await fetch("https://car-spare-part-u8hk.onrender.com/api/m2/products/products");
         const data = await response.json();
         if (data.success) {
           // Shuffle products and get 3 products from different categories
@@ -40,8 +40,8 @@ const FeaturedProducts = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {products.map((product) => (
               <Link
-                to={`/product/${product.id}`} // Direct to specific product page
-                key={product.id}
+                to={`/product/${product._id}`} // Ensure the ID is passed correctly
+                key={product._id}
                 className="bg-white p-6 shadow-lg rounded-lg hover:shadow-xl transition-shadow duration-300"
               >
                 <img

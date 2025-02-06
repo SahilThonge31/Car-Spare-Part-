@@ -26,7 +26,7 @@ const ContactForm = () => {
     setResponseMessage("");
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/contacts",
+        "https://car-spare-part-u8hk.onrender.com/api/m2/contacts",
         formData
       );
       setResponseMessage({ type: "success", text: response.data.message });

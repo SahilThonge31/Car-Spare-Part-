@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { Settings, User, ShoppingCart, Heart, MoonIcon, SunIcon, Globe } from "lucide-react";
+import { Settings, User, ShoppingCart, Heart, MoonIcon, SunIcon, Globe, Home } from "lucide-react";
 import { AuthContext } from "../Context/AuthContext.jsx";
 import Header from "../components/common/Header";
 import Sidebar from "../components/common/Sidebar";
@@ -18,7 +18,7 @@ const ProfilePage = ({ onCartClick, onLikedClick }) => {
         const authToken = localStorage.getItem("authToken");
         if (!authToken) return;
 
-        const response = await axios.get("http://localhost:4000/api/m2/auth/profile", {
+        const response = await axios.get("https://car-spare-part-u8hk.onrender.com/api/m2/auth/profile", {
           headers: { Authorization: `Bearer ${authToken}` },
         });
         setUser(response.data.user);
@@ -42,13 +42,27 @@ const ProfilePage = ({ onCartClick, onLikedClick }) => {
     setLanguage(e.target.value);
     localStorage.setItem("language", e.target.value);
   };
+
   const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("user");
+    // Reset state
     setIsLoggedIn(false);
     setUser(null);
+  
+    // Clear session and local storage
+    localStorage.clear();
+    sessionStorage.clear();
+  
+    // Navigate to home immediately
     navigate("/");
+  
+    // Force reload after a short delay
+    setTimeout(() => {
+      window.location.reload();
+    }, 200);
   };
+  
+  
+  
 
   const indianLanguages = [
     { code: "en", label: "English" },
@@ -83,9 +97,10 @@ const ProfilePage = ({ onCartClick, onLikedClick }) => {
           </div>
 
           <div className="mt-6 space-y-4">
-            <OptionItem icon={<Settings size={20} />} label="Customize Profile" onClick={() => navigate("/profile-settings")} />
-            <OptionItem icon={<ShoppingCart size={20} />} label="Cart" onClick={onCartClick} />
-            <OptionItem icon={<Heart size={20} />} label="Liked Items" onClick={onLikedClick} />
+            <OptionItem icon={<Settings size={20} />} label="Customize Profile" onClick={() => navigate("/profilesettings")} />
+            <OptionItem icon={<ShoppingCart size={20} />} label="Cart" onClick={() => navigate("/cart")} />
+            <OptionItem icon={<Heart size={20} />} label="Liked Items" onClick={() => navigate("/")} />
+            <OptionItem icon={<Home size={20} />} label="Home" onClick={() => navigate("/")} />
             <OptionItem icon={<User size={20} />} label="Log Out" onClick={handleLogout} />
 
             <div className="flex justify-between items-center border-t pt-4">

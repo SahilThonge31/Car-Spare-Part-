@@ -10,7 +10,8 @@ const Footer = () => {
         <div className="animate__animated animate__fadeInLeft">
           <h3 className="text-xl font-semibold mb-4 text-green-400">About Us</h3>
           <p className="text-sm text-gray-400">
-            ShopStyle is your one-stop shop for the latest trends in fashion and style. We inspire creativity and individuality in every look.
+          You can buy car spare parts from many places in Pune, including spare part dealers, online retailers, and auto parts stores. 
+
           </p>
         </div>
 
@@ -29,7 +30,7 @@ const Footer = () => {
               </a>
             </li>
             <li>
-              <a href="/shop" className="text-gray-400 hover:text-green-400 transition-all duration-300 ease-in-out">
+              <a href="/product" className="text-gray-400 hover:text-green-400 transition-all duration-300 ease-in-out">
                 Shop
               </a>
             </li>
@@ -44,8 +45,8 @@ const Footer = () => {
         {/* Contact Section */}
         <div className="animate__animated animate__fadeInRight">
           <h3 className="text-xl font-semibold mb-4 text-green-400">Contact Us</h3>
-          <p className="text-sm text-gray-400 mb-2">Email: support@shopstyle.com</p>
-          <p className="text-sm text-gray-400">Phone: +123 456 789</p>
+          <p className="text-sm text-gray-400 mb-2">Email: carsparestore3@gmail.com</p>
+          <p className="text-sm text-gray-400">Phone: +91 9011881272</p>
         </div>
 
         {/* Social Media Section */}
@@ -89,10 +90,10 @@ const Footer = () => {
       {/* Bottom Section */}
       <div className="mt-8 border-t border-gray-700 pt-6 animate__animated animate__fadeInUp text-center">
         <p className="text-gray-500 text-sm">
-          &copy; {new Date().getFullYear()} ShopStyle. All rights reserved.
+          &copy; {new Date().getFullYear()} Auto Essence. All rights reserved.
         </p>
         <p className="text-xs text-gray-600 mt-2">
-          Designed with ❤️ by <a href="#" className="text-green-400 hover:underline">YourCompany</a>.
+          Designed with ❤️ by <a href="/HomePage" className="text-green-400 hover:underline">Auto Essence</a>.
         </p>
       </div>
     </footer>

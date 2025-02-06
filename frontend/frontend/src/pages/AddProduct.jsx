@@ -85,7 +85,7 @@ const CreateProductForm = ({ onProductCreated }) => {
 
     try {
       const response = await fetch(
-        "http://localhost:4000/api/m2/products/createproducts",
+        "https://car-spare-part-u8hk.onrender.com/api/m2/products/createproducts",
         {
           method: "POST",
           body: formData,

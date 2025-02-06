@@ -13,7 +13,7 @@ const ResetPasswordPopup = ({ onClose }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/m2/auth/reset-password",
+        "https://car-spare-part-u8hk.onrender.com/api/m2/auth/reset-password",
         { email, otp, newPassword }
       );
 

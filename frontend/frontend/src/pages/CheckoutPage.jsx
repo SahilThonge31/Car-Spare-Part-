@@ -64,14 +64,14 @@ export default function CheckoutPage() {
       console.log("Sending Order Data:", orderData);
       
       if (paymentMethod === "cash") {
-        const response = await axios.post("http://localhost:4000/api/m2/orders/createorder", orderData);
+        const response = await axios.post("https://car-spare-part-u8hk.onrender.com/api/m2/orders/createorder", orderData);
         if (response.data.success) {
-          navigate("/order-success");
+          navigate("/OrderSuccess");
         } else {
           alert("Order placement failed. Try again.");
         }
       } else {
-        const { data } = await axios.post("http://localhost:4000/api/m2/orders/createorder", orderData);
+        const { data } = await axios.post("https://car-spare-part-u8hk.onrender.com/api/m2/orders/createorder", orderData);
         
         if (data.success && data.razorpayOrder) {
           // ✅ Load Razorpay script before opening modal
@@ -106,7 +106,7 @@ export default function CheckoutPage() {
           console.log("🛠 Razorpay Response:", response);
       
           // Send payment details to backend for verification and order creation
-          const verifyResponse = await axios.post("http://localhost:4000/api/m2/orders/verifyPayment", {
+          const verifyResponse = await axios.post("https://car-spare-part-u8hk.onrender.com/api/m2/orders/verifyPayment", {
             email: orderData.email,
             name: orderData.name,
             phone: orderData.phone,
@@ -122,7 +122,7 @@ export default function CheckoutPage() {
       
           if (verifyResponse.data.success) {
             alert("🎉 Payment successful! Redirecting to order success page...");
-            navigate("/order-success");
+            navigate("/OrderSuccess");
           } else {
             alert("❌ Payment verification failed. Please contact support.");
           }

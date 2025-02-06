@@ -12,7 +12,7 @@ const ForgotPassword = () => {
   const handleEmailSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:4000/api/m2/auth/forgot-password", { email });
+      const response = await axios.post("https://car-spare-part-u8hk.onrender.com/api/m2/auth/forgot-password", { email });
       setMessage(response.data.message);
       
       setOtpSent(true); // Set OTP sent status to true
@@ -24,7 +24,7 @@ const ForgotPassword = () => {
   const handleOtpSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:4000/api/m2/auth/forgot-password", {
+      const response = await axios.post("https://car-spare-part-u8hk.onrender.com/api/m2/auth/forgot-password", {
         otp,
         newPassword,
       });

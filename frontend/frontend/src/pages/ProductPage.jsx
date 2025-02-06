@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate} from "react-router-dom";
-import ProductCard from "../components/ProductCard";
 import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
 import Sidebar from "../components/common/Sidebar";
@@ -14,7 +13,7 @@ const ProductPage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/m2/products/products");
+        const response = await fetch("https://car-spare-part-u8hk.onrender.com/api/m2/products/products");
         const data = await response.json();
 
         if (data.success) {

@@ -17,7 +17,7 @@ const ProductDetailPage = () => {
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/api/m2/products/products/${id}`);
+        const response = await fetch(`https://car-spare-part-u8hk.onrender.com/api/m2/products/products/${id}`);
         const data = await response.json();
 
         if (data.success) {
@@ -33,7 +33,7 @@ const ProductDetailPage = () => {
 
     const fetchRelatedProducts = async (category) => {
       try {
-        const response = await fetch("http://localhost:4000/api/m2/products/products");
+        const response = await fetch("https://car-spare-part-u8hk.onrender.com/api/m2/products/products");
         const data = await response.json();
 
         if (data.success) {
@@ -79,7 +79,7 @@ const ProductDetailPage = () => {
 
       // Make the API call using axios
       const response = await axios.post(
-        `http://localhost:4000/api/m2/cart/add/${email}`,
+        `https://car-spare-part-u8hk.onrender.com/api/m2/cart/add/${email}`,
         payload,
         {
           headers: {

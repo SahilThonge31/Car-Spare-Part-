@@ -12,8 +12,9 @@ import CreateProductForm from './pages/AddProduct';
 import NotificationPage from './pages/notificationpage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import Cart from './pages/CartPage';
-import Razorpay from './pages/Razorpay';
 import CheckoutDetails from './pages/CheckoutPage';
+import OrderSuccess from './pages/orderSuccess';
+
 
 
 
@@ -36,7 +37,7 @@ function App() {
         <Route path="/product/:id" element={<ProductDetailPage/>} />
         <Route path="/cart" element={<Cart/>} />
         <Route path="/checkout" element={<CheckoutDetails/>} />
-        <Route path="/payment" element={<Razorpay />} />
+        <Route path="/OrderSuccess" element={<OrderSuccess/>} />
         
         <Route
           path="/forgot-password"
